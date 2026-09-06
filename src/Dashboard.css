@@ -1,0 +1,270 @@
+ /* src/Dashboard.css */
+
+.dashboard {
+  padding: 2rem;
+  font-family: var(--sans); /* was hardcoded `sans-serif` — now matches Inter site-wide */
+  color: var(--text);
+  /* #root in index.css already caps the page at 1126px, so this doesn't
+     need its own max-width too — that was fighting the outer constraint
+     on very wide viewports. Let #root own the ceiling; this just adds
+     breathing room inside it. */
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  text-align: left; /* #root sets text-align: center for the marketing
+                        template; a dashboard reads better left-aligned */
+}
+
+.dashboard h1 {
+  font-size: 2rem;
+  color: var(--text-h);
+}
+
+.dashboard-section {
+  margin-top: 2rem;
+}
+
+/* ============================================
+   CARD GRID
+   Each section is an elevated card with its own
+   border, rather than a flat stack of text.
+   ============================================ */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.dashboard-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  transition: border-color 0.15s ease;
+}
+.dashboard-card:hover {
+  border-color: var(--border-hover);
+}
+
+.dashboard-card.wide { grid-column: span 4; }
+.dashboard-card.half { grid-column: span 2; }
+
+.card-eyebrow {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 10px;
+}
+
+/* stat card */
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-h);
+  margin: 0 0 6px;
+}
+.stat-value.mono {
+  font-family: var(--mono);
+  font-size: 22px;
+}
+
+.stat-trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--success);
+}
+.stat-trend.down { color: #F87171; }
+.stat-trend .muted {
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-left: 2px;
+}
+
+/* status badges, e.g. transaction state */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+.badge.success {
+  background: var(--success-dim);
+  color: var(--success);
+  border: 1px solid var(--success-border);
+}
+.badge.pending {
+  background: var(--accent-dim);
+  color: var(--accent);
+  border: 1px solid var(--accent-border);
+}
+.badge::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* ============================================
+   SIGNATURE ELEMENT — wallet address pill
+   Styled as a terminal prompt: "$ 0x71C7...976F"
+   ============================================ */
+.wallet-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 8px 8px 14px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-h);
+  transition: border-color 0.15s ease;
+}
+.wallet-pill:hover {
+  border-color: var(--border-hover);
+}
+
+.wallet-pill .prompt-glyph {
+  color: var(--success);
+  font-weight: 600;
+  user-select: none;
+}
+
+.wallet-pill .addr .fade {
+  color: var(--text-muted);
+}
+
+.wallet-pill .cursor {
+  display: inline-block;
+  width: 7px;
+  height: 15px;
+  background: var(--accent);
+  margin-left: 2px;
+  animation: wallet-blink 1.1s steps(1) infinite;
+  vertical-align: -3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .wallet-pill .cursor {
+    animation: none;
+    opacity: 0.6;
+  }
+}
+@keyframes wallet-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.copy-btn:hover {
+  background: var(--accent-dim);
+  color: var(--accent);
+  border-color: var(--accent-border);
+}
+.copy-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.copy-btn svg {
+  width: 14px;
+  height: 14px;
+}
+.copy-btn.copied {
+  background: var(--success-dim);
+  color: var(--success);
+  border-color: var(--success-border);
+}
+
+/* ============================================
+   TRANSACTIONS TABLE
+   ============================================ */
+.dashboard-card table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.dashboard-card thead th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0 0 10px;
+  border-bottom: 1px solid var(--border);
+}
+.dashboard-card tbody td {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text);
+}
+.dashboard-card tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.hash {
+  font-family: var(--mono);
+  color: var(--text-h);
+  font-size: 12.5px;
+}
+.hash .fade { color: var(--text-muted); }
+
+.amount-in { color: var(--success); font-family: var(--mono); }
+.amount-out { color: var(--text-h); font-family: var(--mono); }
+
+/* On small screens (phones), reduce padding and font size
+   so content doesn't feel cramped or overflow sideways. */
+@media (max-width: 600px) {
+  .dashboard {
+    padding: 1rem;
+  }
+
+  .dashboard h1 {
+    font-size: 1.5rem;
+  }
+
+  .dashboard-section {
+    margin-top: 1.5rem;
+  }
+
+  /* Recharts can overflow on very narrow screens; this keeps
+     it contained within the viewport width. */
+  .recharts-wrapper {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 860px) {
+  .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+  .dashboard-card.wide,
+  .dashboard-card.half { grid-column: span 2; }
+}
+
+@media (max-width: 520px) {
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .dashboard-card.wide,
+  .dashboard-card.half { grid-column: span 1; }
+}
